@@ -1,0 +1,383 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hongjie:workflow-loop-controller:1",
+  "title": "Workflow Loop Controller State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "controllerVersion",
+    "loopId",
+    "projectId",
+    "workflowStage",
+    "objective",
+    "targetCriteria",
+    "budgets",
+    "usage",
+    "progressLedger",
+    "compaction",
+    "terminal",
+    "nextAction",
+    "evidenceVerificationMode",
+    "evidenceIndexRef",
+    "targetVerification",
+    "usageVerificationMode",
+    "targetCriteriaSha256",
+    "evidenceIndexSha256"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "controllerVersion": {
+      "const": "1.2.0"
+    },
+    "loopId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "projectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "workflowStage": {
+      "type": "string",
+      "minLength": 1
+    },
+    "objective": {
+      "type": "string",
+      "minLength": 1
+    },
+    "targetCriteria": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "criterionId",
+          "description",
+          "validatorRef",
+          "status",
+          "evidenceRefs",
+          "validatorResultRef"
+        ],
+        "properties": {
+          "criterionId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1
+          },
+          "validatorRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "status": {
+            "enum": [
+              "PENDING",
+              "PASS",
+              "FAIL"
+            ]
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^E-[A-Za-z0-9._-]+$"
+            }
+          },
+          "validatorResultRef": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "description": "Fixed criterionId/description/validatorRef definitions and mutable status/evidenceRefs/validatorResultRef progress. The 1.2.0 hash covers only the fixed projection, in array order."
+    },
+    "budgets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "maxIterations",
+        "maxElapsedMinutes",
+        "maxTokens",
+        "maxNoProgressIterations",
+        "maxRepeatedFingerprint",
+        "compactionIntervalTokens"
+      ],
+      "properties": {
+        "maxIterations": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxElapsedMinutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxTokens": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxNoProgressIterations": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxRepeatedFingerprint": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "compactionIntervalTokens": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "iterations",
+        "elapsedMinutes",
+        "tokensUsed",
+        "consecutiveNoProgress",
+        "repeatedFingerprintCount",
+        "startedAt",
+        "updatedAt"
+      ],
+      "properties": {
+        "iterations": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "elapsedMinutes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "tokensUsed": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "consecutiveNoProgress": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "repeatedFingerprintCount": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "startedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "progressLedger": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "iteration",
+          "eventId",
+          "actionSummary",
+          "changedCriteria",
+          "evidenceRefs",
+          "progressMade",
+          "progressFingerprint",
+          "tokenDelta",
+          "elapsedMinutes",
+          "recordedAt",
+          "compactionHandoffRef"
+        ],
+        "properties": {
+          "iteration": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "eventId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "actionSummary": {
+            "type": "string",
+            "minLength": 1
+          },
+          "changedCriteria": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "progressMade": {
+            "type": "boolean"
+          },
+          "progressFingerprint": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "tokenDelta": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "elapsedMinutes": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "recordedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "compactionHandoffRef": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      }
+    },
+    "compaction": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required",
+        "lastHandoffRef",
+        "lastHandoffTokens"
+      ],
+      "properties": {
+        "required": {
+          "type": "boolean"
+        },
+        "lastHandoffRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "lastHandoffTokens": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "terminal": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "decidedAt",
+        "qvaDecisionRef"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "RUNNING",
+            "TARGET_MET",
+            "BUDGET_EXHAUSTED",
+            "DOOM_LOOP",
+            "BLOCKED",
+            "ESCALATED",
+            "CANCELLED"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "decidedAt": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "qvaDecisionRef": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "nextAction": {
+      "enum": [
+        "RUN_ITERATION",
+        "WRITE_COMPACTION_HANDOFF",
+        "REQUEST_QVA_DECISION",
+        "RESOLVE_BLOCKER",
+        "ESCALATE_TO_OWNER",
+        "WAIT_FOR_OWNER",
+        "NONE"
+      ]
+    },
+    "evidenceVerificationMode": {
+      "enum": [
+        "TRUSTED",
+        "ADVISORY_UNTRUSTED"
+      ]
+    },
+    "evidenceIndexRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "targetVerification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "TRUSTED",
+            "UNTRUSTED",
+            "ADVISORY_UNTRUSTED"
+          ]
+        },
+        "reason": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "usageVerificationMode": {
+      "enum": [
+        "ADVISORY_UNTRUSTED",
+        "HOST_RECEIPT_VERIFIED"
+      ]
+    },
+    "targetCriteriaSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of the fixed criterionId, description, validatorRef projection using the Loop 1.2.0 canonicalization. Preserved during progress updates; never refreshed automatically."
+    },
+    "evidenceIndexSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "goal": "Verify two synthetic local steps",
+  "workspace": ".",
+  "steps": [
+    {
+      "id": "first",
+      "action": "local-verification",
+      "acceptance": "Fixture exits with a synthetic pass event",
+      "message": "Verify fixture one",
+      "delayMs": 2000
+    },
+    {
+      "id": "second",
+      "action": "local-verification",
+      "acceptance": "Fixture exits with a synthetic pass event",
+      "message": "Verify fixture two"
+    }
+  ]
+}

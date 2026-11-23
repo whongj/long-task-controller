@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "controllerVersion": "1.2.0",
+  "loopId": "demo-loop",
+  "projectId": "demo",
+  "workflowStage": "Build",
+  "objective": "Verify a local fixture",
+  "targetCriteria": [
+    {
+      "criterionId": "check-one",
+      "description": "The local fixture passed the check",
+      "validatorRef": "local-verifier",
+      "status": "PENDING",
+      "evidenceRefs": [],
+      "validatorResultRef": null
+    }
+  ],
+  "budgets": {
+    "maxIterations": 5,
+    "maxElapsedMinutes": 60,
+    "maxTokens": 10000,
+    "maxNoProgressIterations": 2,
+    "maxRepeatedFingerprint": 2,
+    "compactionIntervalTokens": 100
+  },
+  "usage": {
+    "iterations": 0,
+    "elapsedMinutes": 0,
+    "tokensUsed": 0,
+    "consecutiveNoProgress": 0,
+    "repeatedFingerprintCount": 0,
+    "startedAt": "2026-01-01T00:00:00Z",
+    "updatedAt": "2026-01-01T00:00:00Z"
+  },
+  "progressLedger": [],
+  "compaction": {
+    "required": false,
+    "lastHandoffRef": null,
+    "lastHandoffTokens": 0
+  },
+  "terminal": {
+    "status": "RUNNING",
+    "reason": null,
+    "decidedAt": null,
+    "qvaDecisionRef": null
+  },
+  "nextAction": "RUN_ITERATION",
+  "evidenceVerificationMode": "ADVISORY_UNTRUSTED",
+  "evidenceIndexRef": null,
+  "targetVerification": {
+    "status": "UNTRUSTED",
+    "reason": "No terminal target has been met yet."
+  },
+  "usageVerificationMode": "ADVISORY_UNTRUSTED",
+  "evidenceIndexSha256": null,
+  "targetCriteriaSha256": "0000000000000000000000000000000000000000000000000000000000000000"
+}

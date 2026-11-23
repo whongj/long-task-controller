@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hongjie:workflow-loop-validator-result:1",
+  "title": "Workflow Loop Validator Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "validatorResultRef",
+    "validatorRef",
+    "validatorVersion",
+    "validatorSourceRef",
+    "status",
+    "evidenceRefs",
+    "loopId",
+    "projectId",
+    "checkedAt",
+    "inputEvidenceSha256",
+    "provenance"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "validatorResultRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validatorRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validatorVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "validatorSourceRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL",
+        "PENDING"
+      ]
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^E-[A-Za-z0-9._-]+$"
+      }
+    },
+    "loopId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "projectId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "checkedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "inputEvidenceSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "actor",
+        "recordedAt"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "AUTOMATED",
+            "HUMAN_REVIEW"
+          ]
+        },
+        "actor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "recordedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}

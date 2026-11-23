@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:hongjie:workflow-loop-evidence-index:1",
+  "title": "Workflow Loop Evidence Index",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "indexId",
+    "projectId",
+    "loopId",
+    "evidence",
+    "validatorResults"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "indexId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "evidenceId",
+          "sourceRef",
+          "sha256"
+        ],
+        "properties": {
+          "evidenceId": {
+            "type": "string",
+            "pattern": "^E-[A-Za-z0-9._-]+$"
+          },
+          "sourceRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "validatorResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "validatorResultRef",
+          "sourceRef",
+          "sha256"
+        ],
+        "properties": {
+          "validatorResultRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sourceRef": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "loopId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "projectId": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

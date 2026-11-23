@@ -1,0 +1,4 @@
+Long Task Controller
+
+Design references are listed in docs/decisions.md. The project uses Node.js built-in
+modules and PowerShell and does not bundle those runtimes or third-party source.
